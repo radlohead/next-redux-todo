@@ -1,8 +1,15 @@
 import { ADD_TODO, CHANGE_TEXT } from '../actions';
+import * as Types from '../types';
 
-const initialState = {
+interface IInitialState {
+    type: string;
+    todo: Types.ITodo[],
+    changeText: string;
+}
+
+const initialState: IInitialState = {
     type: ADD_TODO,
-    text: [],
+    todo: [],
     changeText: ''
 }
 
@@ -12,9 +19,11 @@ const reducers = (state = initialState, action: any) => {
             return {
                 ...state,
                 type: action.type,
-                text: [
-                    ...state.text,
-                    action.text
+                todo: [...state.todo,
+                    {
+                        id: action.todo.id,
+                        text: action.todo.text
+                    }
                 ]
             }
         case CHANGE_TEXT:
