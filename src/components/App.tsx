@@ -18,7 +18,7 @@ class App extends React.Component<IAppProps, {}> {
         super(props);
     }
 
-    public handleClickTodo(e: Event): void {
+    public handleAddTodo(e: Event): void {
         e.preventDefault();
         const { changeText, onAddTodo } = this.props;
         const refName: string = 'inputText';
@@ -31,7 +31,7 @@ class App extends React.Component<IAppProps, {}> {
         ref.value = '';
     }
 
-    public handleClickClose(v: string, e: Event): void {
+    public handleDeleteTodo(v: string, e: Event): void {
         console.log(v);
     }
     
@@ -40,13 +40,13 @@ class App extends React.Component<IAppProps, {}> {
         return (
             <>
                 <input type="text" ref="inputText" onChange={e => onChangeText(e.target.value)} />
-                <button onClick={this.handleClickTodo.bind(this)}>click</button>
+                <button onClick={this.handleAddTodo.bind(this)}>click</button>
                 <ul>
                     {(todo as any).map((v: Types.ITodo) => {
                         return (
                             <li key={v.id}>
                                 <span>{v.text}</span>
-                                <button onClick={this.handleClickClose.bind(this, v.id)}>close</button>
+                                <button onClick={this.handleDeleteTodo.bind(this, v.id)}>close</button>
                             </li>
                         )
                     })}
