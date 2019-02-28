@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
@@ -17,16 +18,19 @@ class App extends React.Component<IAppProps, {}> {
     }
     public handleClick(e: Event): void {
         e.preventDefault();
-        const { onAddTodo, changeText } = this.props;
+        const { changeText, onAddTodo } = this.props;
+        const refName: string = 'inputText';
+        const ref = ReactDOM.findDOMNode(this.refs[refName]) as HTMLInputElement;
+        
         onAddTodo(changeText);
+        ref.value = '';
     }
     
     public render(): JSX.Element {
         const { text, onChangeText } = this.props;
         return (
             <>
-                <div>App</div>
-                <input type="text" onChange={e => onChangeText(e.target.value)} />
+                <input type="text" ref="inputText" onChange={e => onChangeText(e.target.value)} />
                 <button onClick={this.handleClick.bind(this)}>click</button>
                 <ul>
                     {(text as any).map((v: string) => <li key={v}>{v}</li>)}
