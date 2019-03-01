@@ -1,12 +1,24 @@
 import * as React from 'react';
-import { shallow, mount } from 'enzyme';
+import { Provider } from 'react-redux';
+import { mount, configure } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+import store from '../../stores';
 import App from '../../components/App';
+import { default as Todo } from '../../components/Todo';
+configure({ adapter: new Adapter() });
 
 describe('App test', () => {
-    it('render test', () => {
-        const component = shallow(
+    const component = mount(
+        <Provider store={store}>
             <App />
-        );
-        expect(component).toEqual(1);
-    })
-})
+        </Provider>
+    );
+
+    it('render test', () => {
+        expect(component.length).toEqual(1);
+    });
+
+    it('render Todo test', () => {
+        expect(component.find(Todo).length).toEqual(1);
+    });
+});
