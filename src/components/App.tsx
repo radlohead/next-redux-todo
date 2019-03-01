@@ -80,12 +80,16 @@ class App extends React.Component<IAppProps, {}> {
         onEditTodo(null);
     }
 
-    componentDidUpdate() {
+    public onFocus(): void {
         const { editing } = this.props;
         const refName = `editText_${editing}`;
         const ref = ReactDOM.findDOMNode(this.refs[refName]) as HTMLInputElement;
 
         if(editing) ref.focus();
+    }
+
+    componentDidUpdate() {
+        this.onFocus();
     }
     
     public render(): JSX.Element {
