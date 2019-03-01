@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 import * as Types from '../types';
 import './App.scss';
-import { KeyObject } from 'crypto';
 
 interface IAppProps {
     type: string;
@@ -48,10 +47,19 @@ class App extends React.Component<IAppProps, {}> {
         onDeleteTodo(todo);
     }
 
-    public handleEditTodo(id: string, e: Event): void {
+    public handleEditTodo(todos: Types.ITodo, e: Event): void {
         e.preventDefault();
         const { onEditTodo } = this.props;
-        onEditTodo(id);
+        const refName = `editText_${todos.id}`;
+        const ref = ReactDOM.findDOMNode(this.refs[refName]) as HTMLInputElement;
+        onEditTodo(todos.id);
+        ref.value = todos.text;
+    }
+
+    public handleBlur(e: Event): void {
+        e.preventDefault();
+        const { onEditTodo } = this.props;
+        onEditTodo(null);
     }
     
     public render(): JSX.Element {
@@ -68,8 +76,13 @@ class App extends React.Component<IAppProps, {}> {
                     {(todo as any).map((v: Types.ITodo) => {
                         return (
                             <li key={v.id} className={v.id === editing ? 'editing' : ''}>
-                                <span className="text" onDoubleClick={this.handleEditTodo.bind(this, v.id)}>{v.text}</span>
+                                <span className="text" onDoubleClick={this.handleEditTodo.bind(this, v)}>{v.text}</span>
                                 <button onClick={this.handleDeleteTodo.bind(this, v.id)}>X</button>
+                                <input 
+                                    type="text" 
+                                    ref={`editText_${v.id}`} 
+                                    className="edit__input"
+                                    onBlur={this.handleBlur.bind(this)}/>
                             </li>
                         )
                     })}
