@@ -10,6 +10,7 @@ interface IAppProps {
     todo: Types.ITodo;
     changeText: string;
     onAddTodo(e: any): void;
+    onDeleteTodo(e: any): void;
     onChangeText(e: string): void;
 }
 
@@ -31,8 +32,12 @@ class App extends React.Component<IAppProps, {}> {
         ref.value = '';
     }
 
-    public handleDeleteTodo(v: string, e: Event): void {
-        console.log(v);
+    public handleDeleteTodo(id: string, e: Event): void {
+        const { todo, onDeleteTodo } = this.props;
+        const findIndex = (todo as any).findIndex(v => v.id === id);
+        (todo as any).splice(findIndex, 1);
+        
+        onDeleteTodo(todo);
     }
     
     public render(): JSX.Element {
@@ -67,6 +72,7 @@ const mapStateToProps = (state: IAppProps) => {
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
         onAddTodo: bindActionCreators(actions.addTodo, dispatch),
+        onDeleteTodo: bindActionCreators(actions.deleteTodo, dispatch),
         onChangeText: bindActionCreators(actions.changeText, dispatch)
     }
 }

@@ -1,4 +1,4 @@
-import { ADD_TODO, CHANGE_TEXT } from '../actions';
+import { ADD_TODO, DELETE_TODO, CHANGE_TEXT } from '../actions';
 import * as Types from '../types';
 
 interface IInitialState {
@@ -25,6 +25,12 @@ const reducers = (state = initialState, action: any) => {
                         text: action.todo.text
                     }
                 ]
+            }
+        case DELETE_TODO:
+            return {
+                ...state,
+                type: action.type,
+                todo: [...state.todo]
             }
         case CHANGE_TEXT:
             return {
