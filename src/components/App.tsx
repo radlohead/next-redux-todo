@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 import * as Types from '../types';
 import './App.scss';
+import { KeyObject } from 'crypto';
 
 interface IAppProps {
     type: string;
@@ -22,14 +23,14 @@ class App extends React.Component<IAppProps, {}> {
         super(props);
     }
 
-    public handleAddTodo(e: Event): void {
+    public handleAddTodo(e: KeyboardEvent): void {
+        if(e.keyCode !== 13) return;
         e.preventDefault();
         const { changeText, onAddTodo, onChangeText } = this.props;
         const refName: string = 'inputText';
         const ref = ReactDOM.findDOMNode(this.refs[refName]) as HTMLInputElement;
 
         if(!changeText) return;
-
         onAddTodo({
             id: Date.now(),
             text: changeText
@@ -57,14 +58,18 @@ class App extends React.Component<IAppProps, {}> {
         const { editing, todo, onChangeText } = this.props;
         return (
             <>
-                <input type="text" ref="inputText" onChange={e => onChangeText(e.target.value)} />
+                <input 
+                    type="text" 
+                    ref="inputText" 
+                    onChange={e => onChangeText(e.target.value)}
+                    onKeyDown={this.handleAddTodo.bind(this)} />
                 <button onClick={this.handleAddTodo.bind(this)}>click</button>
                 <ul>
                     {(todo as any).map((v: Types.ITodo) => {
                         return (
                             <li key={v.id} className={v.id === editing ? 'editing' : ''}>
                                 <span className="text" onDoubleClick={this.handleEditTodo.bind(this, v.id)}>{v.text}</span>
-                                <button onClick={this.handleDeleteTodo.bind(this, v.id)}>close</button>
+                                <button onClick={this.handleDeleteTodo.bind(this, v.id)}>X</button>
                             </li>
                         )
                     })}
