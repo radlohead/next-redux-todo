@@ -69,13 +69,15 @@ class App extends React.Component<IAppProps, {}> {
         onEditTodo(null);
     }
 
-    public handleSaveTodo(todos: Types.ITodo): void {
-        const { onSaveTodo } = this.props;
+    public handleSaveTodo(todos: Types.ITodo, e: KeyboardEvent): void {
+        const { onSaveTodo, onEditTodo } = this.props;
         const refName = `editText_${todos.id}`;
         const ref = ReactDOM.findDOMNode(this.refs[refName]) as HTMLInputElement;
         todos.text = ref.value;
-        
+
+        if(e.keyCode !== 13) return;
         onSaveTodo(todos);
+        onEditTodo(null);
     }
 
     componentDidUpdate() {
