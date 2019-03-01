@@ -22,9 +22,9 @@ class App extends React.Component<IAppProps, {}> {
         super(props);
     }
 
-    public handleAddTodo(e: KeyboardEvent): void {
-        if(e.keyCode !== 13) return;
-        e.preventDefault();
+    private editInput = null;
+
+    public handleAddTodo(): void {
         const { changeText, onAddTodo, onChangeText } = this.props;
         const refName: string = 'inputText';
         const ref = ReactDOM.findDOMNode(this.refs[refName]) as HTMLInputElement;
@@ -36,6 +36,11 @@ class App extends React.Component<IAppProps, {}> {
         });
         onChangeText('');
         ref.value = '';
+    }
+
+    public handleKeyAddTodo(e: KeyboardEvent): void {
+        if(e.keyCode !== 13) return;
+        this.handleAddTodo();
     }
 
     public handleDeleteTodo(id: string, e: Event): void {
@@ -52,6 +57,7 @@ class App extends React.Component<IAppProps, {}> {
         const { onEditTodo } = this.props;
         const refName = `editText_${todos.id}`;
         const ref = ReactDOM.findDOMNode(this.refs[refName]) as HTMLInputElement;
+        
         onEditTodo(todos.id);
         ref.value = todos.text;
     }
@@ -60,6 +66,14 @@ class App extends React.Component<IAppProps, {}> {
         e.preventDefault();
         const { onEditTodo } = this.props;
         onEditTodo(null);
+    }
+
+    componentDidUpdate() {
+        const { editing } = this.props;
+        const refName = `editText_${editing}`;
+        const ref = ReactDOM.findDOMNode(this.refs[refName]) as HTMLInputElement;
+
+        if(editing) ref.focus();
     }
     
     public render(): JSX.Element {
@@ -70,19 +84,21 @@ class App extends React.Component<IAppProps, {}> {
                     type="text" 
                     ref="inputText" 
                     onChange={e => onChangeText(e.target.value)}
-                    onKeyDown={this.handleAddTodo.bind(this)} />
+                    onKeyDown={this.handleKeyAddTodo.bind(this)} />
                 <button onClick={this.handleAddTodo.bind(this)}>click</button>
                 <ul>
                     {(todo as any).map((v: Types.ITodo) => {
                         return (
                             <li key={v.id} className={v.id === editing ? 'editing' : ''}>
-                                <span className="text" onDoubleClick={this.handleEditTodo.bind(this, v)}>{v.text}</span>
+                                <span 
+                                    className="text" 
+                                    onDoubleClick={this.handleEditTodo.bind(this, v)}>{v.text}</span>
                                 <button onClick={this.handleDeleteTodo.bind(this, v.id)}>X</button>
                                 <input 
                                     type="text" 
                                     ref={`editText_${v.id}`} 
                                     className="edit__input"
-                                    onBlur={this.handleBlur.bind(this)}/>
+                                    onBlur={this.handleBlur.bind(this)} />
                             </li>
                         )
                     })}
