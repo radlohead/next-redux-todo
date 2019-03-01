@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "keywords": [],
   "author": "",
@@ -28,6 +30,8 @@
     "@types/react-dom": "^16.8.2",
     "@types/react-redux": "^7.0.1",
     "@types/redux": "^3.6.0",
-    "@types/redux-thunk": "^2.1.0"
+    "@types/redux-thunk": "^2.1.0",
+    "enzyme": "^3.9.0",
+    "jest": "^24.1.0"
   }
 }
