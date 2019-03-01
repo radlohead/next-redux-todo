@@ -14,6 +14,7 @@ interface IAppProps {
     onAddTodo(e: any): void;
     onDeleteTodo(e: any): void;
     onEditTodo(e: any): void;
+    onSaveTodo(e: any): void;
     onChangeText(e: string): void;
 }
 
@@ -68,6 +69,15 @@ class App extends React.Component<IAppProps, {}> {
         onEditTodo(null);
     }
 
+    public handleSaveTodo(todos: Types.ITodo): void {
+        const { onSaveTodo } = this.props;
+        const refName = `editText_${todos.id}`;
+        const ref = ReactDOM.findDOMNode(this.refs[refName]) as HTMLInputElement;
+        todos.text = ref.value;
+        
+        onSaveTodo(todos);
+    }
+
     componentDidUpdate() {
         const { editing } = this.props;
         const refName = `editText_${editing}`;
@@ -98,7 +108,8 @@ class App extends React.Component<IAppProps, {}> {
                                     type="text" 
                                     ref={`editText_${v.id}`} 
                                     className="edit__input"
-                                    onBlur={this.handleBlur.bind(this)} />
+                                    onBlur={this.handleBlur.bind(this)}
+                                    onKeyDown={this.handleSaveTodo.bind(this, v)} />
                             </li>
                         )
                     })}
@@ -122,6 +133,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         onAddTodo: bindActionCreators(actions.addTodo, dispatch),
         onDeleteTodo: bindActionCreators(actions.deleteTodo, dispatch),
         onEditTodo: bindActionCreators(actions.editTodo, dispatch),
+        onSaveTodo: bindActionCreators(actions.saveTodo, dispatch),
         onChangeText: bindActionCreators(actions.changeText, dispatch)
     }
 }
