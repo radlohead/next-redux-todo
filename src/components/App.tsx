@@ -4,6 +4,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 import * as Types from '../types';
+import './App.scss';
 
 interface IAppProps {
     type: string;
@@ -62,7 +63,7 @@ class App extends React.Component<IAppProps, {}> {
                     {(todo as any).map((v: Types.ITodo) => {
                         return (
                             <li key={v.id} className={v.id === editing ? 'editing' : ''}>
-                                <span onDoubleClick={this.handleEditTodo.bind(this, v.id)}>{v.text}</span>
+                                <span className="text" onDoubleClick={this.handleEditTodo.bind(this, v.id)}>{v.text}</span>
                                 <button onClick={this.handleDeleteTodo.bind(this, v.id)}>close</button>
                             </li>
                         )
