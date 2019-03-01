@@ -10,6 +10,11 @@
     "test": "jest",
     "test:watch": "jest --watch"
   },
+  "jest": {
+    "moduleNameMapper": {
+      "^.+\\.(css|less|scss)$": "babel-jest"
+    }
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -31,6 +36,7 @@
     "@types/react-redux": "^7.0.1",
     "@types/redux": "^3.6.0",
     "@types/redux-thunk": "^2.1.0",
+    "babel-jest": "^24.1.0",
     "enzyme": "^3.9.0",
     "jest": "^24.1.0"
   }
