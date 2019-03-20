@@ -19,13 +19,13 @@ interface IAppProps {
     onChangeText(e: string): void;
 }
 
-class App extends React.Component<IAppProps, {}> {
+class App extends React.Component {
     constructor(props: IAppProps) {
         super(props);
     }
 
     public handleAddTodo(): void {
-        const { changeText, onAddTodo, onChangeText } = this.props;
+        const { changeText, onAddTodo, onChangeText }: any = this.props;
         const refName: string = 'inputText';
         const ref = ReactDOM.findDOMNode(this.refs[refName]) as HTMLInputElement;
 
@@ -44,7 +44,7 @@ class App extends React.Component<IAppProps, {}> {
     }
     
     public render(): JSX.Element {
-        const { onChangeText } = this.props;
+        const { onChangeText }: any = this.props;
         return (
             <>
                 <input 

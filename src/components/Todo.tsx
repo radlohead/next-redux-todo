@@ -13,10 +13,10 @@ interface ITodoProps {
     onSaveTodo(e: Types.ITodo): void;
 }
 
-class Todo extends React.Component<ITodoProps, {}> {
+class Todo extends React.Component {
     public handleEditTodo(todos: Types.ITodo, e: Event): void {
         e.preventDefault();
-        const { onEditTodo } = this.props;
+        const { onEditTodo }: any = this.props;
         const refName = `editText_${todos.id}`;
         const ref = ReactDOM.findDOMNode(this.refs[refName]) as HTMLInputElement;
         
@@ -26,7 +26,7 @@ class Todo extends React.Component<ITodoProps, {}> {
 
     public handleDeleteTodo(id: string, e: Event): void {
         e.preventDefault();
-        const { todo, onDeleteTodo } = this.props;
+        const { todo, onDeleteTodo }: any = this.props;
         const findIndex = (todo as any).findIndex(v => v.id === id);
         (todo as any).splice(findIndex, 1);
         
@@ -35,12 +35,12 @@ class Todo extends React.Component<ITodoProps, {}> {
 
     public handleBlur(e: Event): void {
         e.preventDefault();
-        const { onEditTodo } = this.props;
+        const { onEditTodo }: any = this.props;
         onEditTodo(null);
     }
 
     public handleSaveTodo(todos: Types.ITodo, e: KeyboardEvent): void {
-        const { onSaveTodo, onEditTodo } = this.props;
+        const { onSaveTodo, onEditTodo }: any = this.props;
         const refName = `editText_${todos.id}`;
         const ref = ReactDOM.findDOMNode(this.refs[refName]) as HTMLInputElement;
         todos.text = ref.value;
@@ -51,7 +51,7 @@ class Todo extends React.Component<ITodoProps, {}> {
     }
 
     public onFocus(): void {
-        const { editing } = this.props;
+        const { editing }: any = this.props;
         const refName = `editText_${editing}`;
         const ref = ReactDOM.findDOMNode(this.refs[refName]) as HTMLInputElement;
 
@@ -63,7 +63,7 @@ class Todo extends React.Component<ITodoProps, {}> {
     }
 
     public render(): JSX.Element {
-        const { todo, editing } = this.props;
+        const { todo, editing }: any = this.props;
         return (
             <>
                 <ul>
